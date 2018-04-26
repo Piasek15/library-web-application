@@ -5,6 +5,7 @@ import pl.piasecki.librarywebapplication.DTOs.mapper.AuthorMapper;
 import pl.piasecki.librarywebapplication.DTOs.model.AuthorDTO;
 import pl.piasecki.librarywebapplication.DTOs.model.AuthorPureDTO;
 import pl.piasecki.librarywebapplication.domain.Author;
+import pl.piasecki.librarywebapplication.exceptions.NotFoundException;
 import pl.piasecki.librarywebapplication.repositories.AuthorRepository;
 
 import java.util.List;
@@ -33,7 +34,7 @@ public class AuthorService {
     public AuthorDTO getAuthorById(Long id){
         return authorRepository.findById(id)
                 .map(authorMapper::authorToAuthorDTO)
-                .orElseThrow(RuntimeException::new); //todo exception handler
+                .orElseThrow(() -> new NotFoundException("Author (ID: " + id + ") Not Found"));
     }
 
     public AuthorPureDTO createAuthor(AuthorPureDTO authorPureDTO){

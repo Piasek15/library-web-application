@@ -6,6 +6,7 @@ import pl.piasecki.librarywebapplication.DTOs.model.BookDTO;
 import pl.piasecki.librarywebapplication.DTOs.model.BookPureDTO;
 import pl.piasecki.librarywebapplication.domain.Author;
 import pl.piasecki.librarywebapplication.domain.Book;
+import pl.piasecki.librarywebapplication.exceptions.NotFoundException;
 import pl.piasecki.librarywebapplication.repositories.AuthorRepository;
 import pl.piasecki.librarywebapplication.repositories.BookRepository;
 
@@ -37,7 +38,7 @@ public class BookService {
     public BookDTO getBookById(Long id){
         return bookRepository.findById(id)
                 .map(bookMapper::bookToBookDTO)
-                .orElseThrow(RuntimeException::new); //todo exception handler
+                .orElseThrow(() -> new NotFoundException("Book (ID: " + id + ") Not Found"));
     }
 
     public BookPureDTO createBook(BookPureDTO bookPureDTO){
@@ -59,10 +60,10 @@ public class BookService {
 
     public BookDTO addAuthorToBook(Long authorId, Long bookId){
         Author author = authorRepository.findById(authorId)
-                .orElseThrow(RuntimeException::new); // todo
+                .orElseThrow(() -> new NotFoundException("Author (ID: " + authorId + ") Not Found"));
 
         Book book = bookRepository.findById(bookId)
-                .orElseThrow(RuntimeException::new); //todo
+                .orElseThrow(() -> new NotFoundException("Book (ID: " + bookId + ") Not Found"));
 
         book.addAuthor(author);
         bookRepository.save(book);
@@ -72,10 +73,10 @@ public class BookService {
 
     public BookDTO removeAuthorFromBook(Long authorId, Long bookId){
         Author author = authorRepository.findById(authorId)
-                .orElseThrow(RuntimeException::new); // todo
+                .orElseThrow(() -> new NotFoundException("Author (ID: " + authorId + ") Not Found"));
 
         Book book = bookRepository.findById(bookId)
-                .orElseThrow(RuntimeException::new); //todo
+                .orElseThrow(() -> new NotFoundException("Book (ID: " + bookId + ") Not Found"));
 
         book.removeAuthor(author);
         bookRepository.save(book);

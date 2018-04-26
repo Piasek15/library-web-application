@@ -5,7 +5,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -23,8 +22,18 @@ public class Book {
     private String category;
     private Integer pages;
 
-    @ManyToMany(mappedBy = "books")
-    private Set<Author> authors = new HashSet<>();
+    @ManyToMany(mappedBy = "books", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    private Set<Author> authors;
+
+    public void addAuthor(Author author){
+        authors.add(author);
+        author.getBooks().add(this);
+    }
+
+    public void removeAuthor(Author author){
+        authors.remove(author);
+        author.getBooks().remove(this);
+    }
 
     private Book(final Builder builder){
         this.title = builder.title;

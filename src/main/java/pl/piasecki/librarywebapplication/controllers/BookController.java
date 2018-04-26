@@ -42,7 +42,18 @@ public class BookController {
     }
 
     @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteBook(@PathVariable Long id){
         bookService.deleteBook(id);
+    }
+
+    @PutMapping("/{bookId}/authors/{authorId}")
+    public BookDTO addAuthorToBook(@PathVariable Long authorId, @PathVariable Long bookId){
+        return bookService.addAuthorToBook(authorId, bookId);
+    }
+
+    @DeleteMapping("/{bookId}/authors/{authorId}")
+    public BookDTO removeAuthorFromBook(@PathVariable Long authorId, @PathVariable Long bookId){
+        return bookService.removeAuthorFromBook(authorId, bookId);
     }
 }

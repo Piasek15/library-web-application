@@ -4,7 +4,9 @@ import org.springframework.stereotype.Service;
 import pl.piasecki.librarywebapplication.DTOs.mapper.BookMapper;
 import pl.piasecki.librarywebapplication.DTOs.model.BookDTO;
 import pl.piasecki.librarywebapplication.DTOs.model.BookPureDTO;
+import pl.piasecki.librarywebapplication.domain.Author;
 import pl.piasecki.librarywebapplication.domain.Book;
+import pl.piasecki.librarywebapplication.repositories.AuthorRepository;
 import pl.piasecki.librarywebapplication.repositories.BookRepository;
 
 import java.util.List;
@@ -16,10 +18,12 @@ import java.util.stream.Collectors;
 @Service
 public class BookService {
     private final BookRepository bookRepository;
+    private final AuthorRepository authorRepository;
     private final BookMapper bookMapper;
 
-    public BookService(BookRepository bookRepository, BookMapper bookMapper) {
+    public BookService(BookRepository bookRepository, AuthorRepository authorRepository, BookMapper bookMapper) {
         this.bookRepository = bookRepository;
+        this.authorRepository = authorRepository;
         this.bookMapper = bookMapper;
     }
 
@@ -51,5 +55,31 @@ public class BookService {
 
     public void deleteBook(Long id){
         bookRepository.deleteById(id);
+    }
+
+    public BookDTO addAuthorToBook(Long authorId, Long bookId){
+        Author author = authorRepository.findById(authorId)
+                .orElseThrow(RuntimeException::new); // todo
+
+        Book book = bookRepository.findById(bookId)
+                .orElseThrow(RuntimeException::new); //todo
+
+        book.addAuthor(author);
+        bookRepository.save(book);
+
+        return bookMapper.bookToBookDTO(book);
+    }
+
+    public BookDTO removeAuthorFromBook(Long authorId, Long bookId){
+        Author author = authorRepository.findById(authorId)
+                .orElseThrow(RuntimeException::new); // todo
+
+        Book book = bookRepository.findById(bookId)
+                .orElseThrow(RuntimeException::new); //todo
+
+        book.removeAuthor(author);
+        bookRepository.save(book);
+
+        return bookMapper.bookToBookDTO(book);
     }
 }

@@ -5,7 +5,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -23,11 +22,10 @@ public class Author {
     private String firstName;
     private String lastName;
 
-    @ManyToMany
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
             name = "Author_Book",
             joinColumns = {@JoinColumn(name = "author_id")},
-            inverseJoinColumns = {@JoinColumn(name = "book_id")}
-    )
-    private Set<Book> books = new HashSet<>();
+            inverseJoinColumns = {@JoinColumn(name = "book_id")})
+    private Set<Book> books;
 }

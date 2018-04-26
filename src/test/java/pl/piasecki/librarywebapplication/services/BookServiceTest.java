@@ -8,6 +8,7 @@ import pl.piasecki.librarywebapplication.DTOs.mapper.BookMapper;
 import pl.piasecki.librarywebapplication.DTOs.model.BookDTO;
 import pl.piasecki.librarywebapplication.DTOs.model.BookPureDTO;
 import pl.piasecki.librarywebapplication.domain.Book;
+import pl.piasecki.librarywebapplication.repositories.AuthorRepository;
 import pl.piasecki.librarywebapplication.repositories.BookRepository;
 
 import java.util.Arrays;
@@ -36,10 +37,13 @@ public class BookServiceTest {
     @Mock
     BookRepository bookRepository;
 
+    @Mock
+    AuthorRepository authorRepository;
+
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
-        bookService = new BookService(bookRepository, BookMapper.INSTANCE);
+        bookService = new BookService(bookRepository, authorRepository, BookMapper.INSTANCE);
     }
 
     @Test

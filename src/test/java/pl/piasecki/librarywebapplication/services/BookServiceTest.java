@@ -8,6 +8,7 @@ import pl.piasecki.librarywebapplication.DTOs.mapper.BookMapper;
 import pl.piasecki.librarywebapplication.DTOs.model.BookDTO;
 import pl.piasecki.librarywebapplication.DTOs.model.BookPureDTO;
 import pl.piasecki.librarywebapplication.domain.Book;
+import pl.piasecki.librarywebapplication.exceptions.NotFoundException;
 import pl.piasecki.librarywebapplication.repositories.AuthorRepository;
 import pl.piasecki.librarywebapplication.repositories.BookRepository;
 
@@ -15,12 +16,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 /**
  * Created by Patrick on 25 kwi 2018
@@ -72,6 +71,10 @@ public class BookServiceTest {
         assertEquals(PAGES, bookDTO.getPages());
     }
 
+    @Test(expected = NotFoundException.class)
+    public void invalidGetBookById() {
+        bookService.getBookById(999L);
+    }
 
     @Test
     public void createBook() {
@@ -106,5 +109,10 @@ public class BookServiceTest {
         bookService.deleteBook(ID);
 
         verify(bookRepository, times(1)).deleteById(anyLong());
+    }
+
+    @Test(expected = NotFoundException.class)
+    public void invalidAddAuthorToBook() {
+        bookService.addAuthorToBook(22L, 33L);
     }
 }

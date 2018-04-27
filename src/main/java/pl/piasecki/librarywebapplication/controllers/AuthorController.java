@@ -6,6 +6,7 @@ import pl.piasecki.librarywebapplication.DTOs.model.AuthorDTO;
 import pl.piasecki.librarywebapplication.DTOs.model.AuthorPureDTO;
 import pl.piasecki.librarywebapplication.services.AuthorService;
 
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -32,7 +33,7 @@ public class AuthorController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public AuthorPureDTO createAuthor(@RequestBody AuthorPureDTO authorPureDTO){
+    public AuthorPureDTO createAuthor( @RequestBody @Valid AuthorPureDTO authorPureDTO){
         return authorService.createAuthor(authorPureDTO);
     }
 

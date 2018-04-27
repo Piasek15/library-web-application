@@ -1,5 +1,6 @@
 package pl.piasecki.librarywebapplication.controllers;
 
+import io.swagger.annotations.ApiParam;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import pl.piasecki.librarywebapplication.DTOs.model.BookDTO;
@@ -57,8 +58,11 @@ public class BookController {
         return bookService.removeAuthorFromBook(authorId, bookId);
     }
 
+
     @GetMapping(params = "category")
-    public List<BookDTO> findAllByCategoryIgnoreCase(@RequestParam String category){
+    public List<BookDTO> findAllByCategoryIgnoreCase(
+            @ApiParam(name = "category", value = "category", defaultValue = "")
+            @RequestParam String category){
         return bookService.findAllByCategoryIgnoreCase(category);
     }
 

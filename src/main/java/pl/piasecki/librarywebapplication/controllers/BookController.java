@@ -56,4 +56,10 @@ public class BookController {
     public BookDTO removeAuthorFromBook(@PathVariable Long authorId, @PathVariable Long bookId){
         return bookService.removeAuthorFromBook(authorId, bookId);
     }
+
+    @GetMapping(params = "category")
+    public List<BookDTO> findAllByCategoryIgnoreCase(@RequestParam String category){
+        return bookService.findAllByCategoryIgnoreCase(category);
+    }
+
 }

@@ -45,4 +45,9 @@ public class AuthorController {
     public void deleteAuthor(@PathVariable Long id){
         authorService.deleteAuthor(id);
     }
+
+    @GetMapping("/sort/lastname/asc")
+    public List<AuthorDTO> findAllByOrderByLastNameAsc(){
+        return authorService.findAllByOrderByLastNameAsc();
+    }
 }

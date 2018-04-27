@@ -54,4 +54,11 @@ public class AuthorService {
         authorRepository.deleteById(id);
     }
 
+    public List<AuthorDTO> findAllByOrderByLastNameAsc(){
+        return authorRepository.findAllByOrderByLastNameAsc()
+                .stream()
+                .map(authorMapper::authorToAuthorDTO)
+                .collect(Collectors.toList());
+    }
+
 }

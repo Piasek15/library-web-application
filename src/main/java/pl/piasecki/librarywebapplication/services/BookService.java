@@ -83,4 +83,11 @@ public class BookService {
 
         return bookMapper.bookToBookDTO(book);
     }
+
+    public List<BookDTO> findAllByCategoryIgnoreCase(String category){
+        return bookRepository.findAllByCategoryIgnoreCase(category)
+                .stream()
+                .map(bookMapper::bookToBookDTO)
+                .collect(Collectors.toList());
+    }
 }
